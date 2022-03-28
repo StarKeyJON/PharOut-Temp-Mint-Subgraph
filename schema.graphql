@@ -1,3 +1,27 @@
+enum NFTType {
+  ERC721
+  ERC1155
+}
+
+type Metadata @entity {
+  id: ID! # contract_address + token_id
+  nft: NFT! @derivedFrom (field: "metadata")
+  type: NFTType!
+  uri: String
+  name: String
+  symbol: String
+}
+
+type NFT @entity {
+  id: ID!
+  contract_type: String!
+  token_address: Bytes!
+  token_id: BigInt!
+  owner_of: Bytes!
+  metadata: Metadata! @derivedFrom (field: "nft")
+  created: Mint! @derivedFrom(field: "nft")
+}
+
 type Mint @entity {
   id: ID! # tx
   date: BigInt!
@@ -5,11 +29,6 @@ type Mint @entity {
   count: BigInt!
   minter: Bytes! #address
   receiver: Bytes! #address
-  nftId: BigInt!
-}
-
-type NFT @entity {
-  id: ID!
   token_id: BigInt!
-  owner_of: Bytes!
+  nft: NFT! @derivedFrom(field: "created")
 }
