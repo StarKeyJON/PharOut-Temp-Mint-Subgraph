@@ -2,37 +2,46 @@ specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
+  - kind: ethereum/contract
     name: TempMint
-    network: rinkeby
+    network: mainnet
     source:
-      address: "0x1a3A91C3d59b93C96a7EE023cbC2Aa762DA0dceA"
+      address: "0xa37c83CA83A1Fc5540E88DC8Fb2e45eF39C75100"
       abi: TempMint
+      startBlock: 10000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
+        - NFT
+        - Metadata
         - Mint
         - nftClaimed
       abis:
         - name: TempMint
           file: ./abis/TempMint.json
+        - name: PhamNFTs
+          file: ./abis/PhamNFTs.json
       eventHandlers:
         - event: nftClaimed(uint256,address,address)
           handler: handlenftClaimed
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: PhamNFTs
-    network: rinkeby
+    network: mainnet
     source:
-      address: "0x851A7c43C148bfA7F79dAA312d09A61306B56006"
+      address: "0x7D19ee7b025874009A77a20FdC244DCe005d6c07"
       abi: PhamNFTs
+      startBlock: 10000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
+        - NFT
+        - Metadata
+        - Mint
         - Transfer
       abis:
         - name: PhamNFTs
