@@ -5,7 +5,7 @@ enum NFTType {
 
 type Metadata @entity {
   id: ID! # contract_address + token_id
-  nft: NFT! @derivedFrom (field: "metadata")
+  nft: NFT!
   type: NFTType!
   uri: String
   name: String
@@ -24,11 +24,11 @@ type NFT @entity {
 
 type Mint @entity {
   id: ID! # tx
-  date: BigInt!
+  date: String!
   price: BigInt!
   count: BigInt!
   minter: Bytes! #address
   receiver: Bytes! #address
   token_id: BigInt!
-  nft: NFT! @derivedFrom(field: "created")
+  nft: NFT!
 }
